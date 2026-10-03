@@ -1,10 +1,22 @@
-<!-- Whitespace-only nodes are dropped; each segment's own spaces live inside its text. -->
+<!-- Whitespace-only nodes are dropped; each part's own spaces live inside its text. -->
 @for (segment of segments(); track $index) {
   @if (segment.strong) {
-    <strong>{{ segment.text }}</strong>
+    <strong
+      ><ng-container *ngTemplateOutlet="parts; context: { $implicit: segment.parts }"
+    /></strong>
   } @else if (segment.em) {
-    <em>{{ segment.text }}</em>
+    <em><ng-container *ngTemplateOutlet="parts; context: { $implicit: segment.parts }" /></em>
   } @else {
-    <ng-container>{{ segment.text }}</ng-container>
+    <ng-container *ngTemplateOutlet="parts; context: { $implicit: segment.parts }" />
   }
 }
+
+<ng-template #parts let-parts>
+  @for (part of parts; track $index) {
+    @if (part.nowrap) {
+      <span class="nowrap">{{ part.text }}</span>
+    } @else {
+      <ng-container>{{ part.text }}</ng-container>
+    }
+  }
+</ng-template>

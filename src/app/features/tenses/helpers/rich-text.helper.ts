@@ -24,3 +24,29 @@ export function parseRichText(text: RichText): TextSegment[] {
   }
   return segments;
 }
+
+export interface TextPart {
+  text: string;
+  /** Endings like `-imos` must not break after their hyphen. */
+  nowrap: boolean;
+}
+
+const ENDING = /-\p{L}+/gu;
+
+/** Splits text so that endings (`-imos`, `-ieron`) can be rendered as unbreakable pieces. */
+export function splitEndings(text: string): TextPart[] {
+  const parts: TextPart[] = [];
+  let last = 0;
+  for (const match of text.matchAll(ENDING)) {
+    const index = match.index ?? 0;
+    if (index > last) {
+      parts.push({ text: text.slice(last, index), nowrap: false });
+    }
+    parts.push({ text: match[0], nowrap: true });
+    last = index + match[0].length;
+  }
+  if (last < text.length) {
+    parts.push({ text: text.slice(last), nowrap: false });
+  }
+  return parts;
+}

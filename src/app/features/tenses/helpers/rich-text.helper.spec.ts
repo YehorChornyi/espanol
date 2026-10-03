@@ -1,4 +1,4 @@
-import { parseRichText } from './rich-text.helper';
+import { parseRichText, splitEndings } from './rich-text.helper';
 
 describe('parseRichText', () => {
   it('returns plain text as one segment', () => {
@@ -34,5 +34,19 @@ describe('parseRichText', () => {
 
   it('returns no segments for an empty string', () => {
     expect(parseRichText('')).toEqual([]);
+  });
+});
+
+describe('splitEndings', () => {
+  it('isolates endings so they cannot break after the hyphen', () => {
+    expect(splitEndings('-o, -imos')).toEqual([
+      { text: '-o', nowrap: true },
+      { text: ', ', nowrap: false },
+      { text: '-imos', nowrap: true },
+    ]);
+  });
+
+  it('leaves text without endings alone', () => {
+    expect(splitEndings('habl- + o')).toEqual([{ text: 'habl- + o', nowrap: false }]);
   });
 });

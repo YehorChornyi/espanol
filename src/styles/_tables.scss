@@ -91,7 +91,9 @@
 
 @media (max-width: tokens.$breakpoint-compact) {
   .table-scroll {
-    // Full-bleed tables on phones: every pixel of width goes to columns.
+    // Full-bleed tables on phones: every pixel of width goes to columns. `max-width` must be
+    // lifted, or the box stays content-wide and only shifts left, leaving a gap on the right.
+    max-width: none;
     margin-inline: calc(-1 * var(--space-4));
     border-inline: 0;
     border-radius: 0;
