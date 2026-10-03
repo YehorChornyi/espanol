@@ -1,3 +1,5 @@
+@use 'tokens';
+
 :host {
   display: block;
 }
@@ -79,6 +81,18 @@
   color: var(--color-link);
   font-weight: 600;
   white-space: nowrap;
+}
+
+// Phones: the global person-label cap (max-width on row headers) is too narrow for tense
+// names; let them wrap so the column is as wide as its longest word and never overlaps.
+@media (max-width: tokens.$breakpoint-compact) {
+  .table-scroll tbody th.map-name {
+    max-width: none;
+  }
+
+  .map-name a {
+    white-space: normal;
+  }
 }
 
 .map-markers {
