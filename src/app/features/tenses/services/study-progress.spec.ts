@@ -75,6 +75,27 @@ describe('StudyProgress', () => {
     expect(create('{"pinned":"presente"}').pinned()).toEqual([]);
   });
 
+  it('picks up changes made in another tab instead of overwriting them', () => {
+    const progress = create(JSON.stringify({ pinned: ['imperativo'], learned: [] }));
+    const fromOtherTab = JSON.stringify({ pinned: ['imperativo'], learned: ['presente'] });
+    localStorage.setItem(PROGRESS_STORAGE_KEY, fromOtherTab);
+    window.dispatchEvent(
+      new StorageEvent('storage', { key: PROGRESS_STORAGE_KEY, newValue: fromOtherTab }),
+    );
+    expect(progress.isLearned('presente')).toBe(true);
+
+    // The next change in this tab keeps the other tab's work.
+    progress.togglePinned('presente');
+    TestBed.tick();
+    expect(saved()).toEqual({ pinned: ['imperativo', 'presente'], learned: ['presente'] });
+  });
+
+  it('ignores storage events for other keys', () => {
+    const progress = create(JSON.stringify({ pinned: ['imperativo'], learned: [] }));
+    window.dispatchEvent(new StorageEvent('storage', { key: 'other', newValue: '{}' }));
+    expect(progress.pinned()).toEqual(['imperativo']);
+  });
+
   it('works in memory when storage is unavailable', () => {
     vi.spyOn(Storage.prototype, 'getItem').mockImplementation(() => {
       throw new Error('blocked');

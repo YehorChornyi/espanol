@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, signal } from '@angular/core';
+import { computed, DestroyRef, effect, inject, Injectable, signal } from '@angular/core';
 import { LocalStorage } from '../../../core/services/local-storage';
 import { isTenseId } from '../helpers/tense-id.helper';
 import { StudyProgress as StudyProgressState } from '../interfaces/study-progress.interface';
@@ -44,6 +44,14 @@ export class StudyProgress {
   });
 
   constructor() {
+    // Keep every open tab in sync; otherwise a stale tab would overwrite changes made elsewhere
+    // the next time it saves.
+    const stopWatching = this.storage.watch(PROGRESS_STORAGE_KEY, parseProgress, EMPTY, (next) => {
+      this.pinned.set(next.pinned);
+      this.learned.set(new Set(next.learned));
+    });
+    inject(DestroyRef).onDestroy(stopWatching);
+
     effect(() => {
       this.storage.write(PROGRESS_STORAGE_KEY, {
         pinned: this.pinned(),
