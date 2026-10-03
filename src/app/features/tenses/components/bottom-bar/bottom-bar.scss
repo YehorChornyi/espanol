@@ -8,12 +8,14 @@
   inset: auto 0 0;
   z-index: 30;
   display: grid;
-  grid-template-columns: 1fr auto 1fr;
+  // minmax(0, 1fr): side columns stay equal (names ellipsize) so the menu button is truly centred.
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
   align-items: center;
   gap: var(--space-2);
   height: calc(var(--bottombar-height) + var(--safe-bottom));
-  padding: 0 calc(var(--space-3) + var(--safe-right)) var(--safe-bottom)
-    calc(var(--space-3) + var(--safe-left));
+  // Bar padding + link padding = 16px, so the arrows line up with the page text edge.
+  padding: 0 calc(var(--space-2) + var(--safe-right)) var(--safe-bottom)
+    calc(var(--space-2) + var(--safe-left));
   border-top: 1px solid var(--color-border);
   background: rgb(16 19 24 / 94%);
   backdrop-filter: blur(10px);
@@ -44,9 +46,8 @@
 
 .step-arrow {
   flex: none;
+  display: block;
   color: var(--color-accent);
-  font-size: 1.75rem;
-  line-height: 1;
 }
 
 .step-name {
