@@ -36,6 +36,15 @@ describe('TensePage', () => {
     }
   });
 
+  it('links every section from the chips and pages to the neighbouring tenses', async () => {
+    const { host } = await render('estar-gerundio');
+    const chips = [...host.querySelectorAll<HTMLAnchorElement>('.toc-link')];
+    const sectionIds = [...host.querySelectorAll('section')].map((s) => s.id);
+    expect(chips.map((a) => a.getAttribute('href')?.split('#')[1])).toEqual(sectionIds);
+    const pager = [...host.querySelectorAll<HTMLAnchorElement>('.pager-link')];
+    expect(pager.map((a) => a.getAttribute('href'))).toEqual(['/presente', '/ir-a-infinitivo']);
+  });
+
   it('toggles pinned and learned from the header', async () => {
     const { fixture, host } = await render('presente');
     const [pin, learned] = host.querySelectorAll<HTMLButtonElement>('.actions button');

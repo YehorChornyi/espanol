@@ -1,12 +1,13 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { RichTextView } from '../../components/rich-text/rich-text';
+import { ScrollHint } from '../../directives/scroll-hint.directive';
 import { DECISION_GUIDE } from '../../properties/decision-guide.properties';
 import { TenseContent } from '../../services/tense-content';
 
 @Component({
   selector: 'app-overview',
-  imports: [RouterLink, RichTextView],
+  imports: [RouterLink, RichTextView, ScrollHint],
   templateUrl: './overview.html',
   styleUrl: './overview.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

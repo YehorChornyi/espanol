@@ -1,0 +1,43 @@
+:host {
+  display: block;
+}
+
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--space-3);
+  margin-top: var(--space-7);
+}
+
+.pager-link {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  min-height: var(--tap-size);
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  text-decoration: none;
+
+  &:hover,
+  &:active {
+    border-color: var(--color-accent);
+  }
+}
+
+.pager-link--next {
+  grid-column: 2;
+  text-align: right;
+}
+
+.pager-label {
+  color: var(--color-text-muted);
+  font-size: var(--font-size-small);
+}
+
+.pager-name {
+  color: var(--color-accent);
+  font-weight: 600;
+}

@@ -32,7 +32,12 @@
               "node_modules/@fontsource-variable/inter/index.css",
               "src/styles.scss"
             ],
-            "inlineStyleLanguage": "scss"
+            "inlineStyleLanguage": "scss",
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            }
           },
           "configurations": {
             "production": {

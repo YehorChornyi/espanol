@@ -1,0 +1,7 @@
+<nav class="toc" aria-label="Зміст">
+  @for (section of sections(); track section.kind) {
+    <a class="toc-link" [routerLink]="[]" [fragment]="section.kind">{{ section.title }}</a>
+  }
+  <a class="toc-link" [routerLink]="[]" fragment="mistakes">Типові помилки</a>
+  <a class="toc-link" [routerLink]="[]" fragment="self-check">Самоперевірка</a>
+</nav>

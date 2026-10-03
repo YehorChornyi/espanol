@@ -1,4 +1,10 @@
-<div class="table-scroll" role="region" tabindex="0" [attr.aria-label]="regionLabel()">
+<div
+  class="table-scroll"
+  appScrollHint
+  role="region"
+  tabindex="0"
+  [attr.aria-label]="regionLabel()"
+>
   <table>
     @if (block().caption; as caption) {
       <caption>
@@ -21,7 +27,7 @@
             @if (first && block().persons) {
               <th scope="row"><app-rich-text [text]="cell" /></th>
             } @else {
-              <td><app-rich-text [text]="cell" /></td>
+              <td [class.cell-nowrap]="isShort(cell)"><app-rich-text [text]="cell" /></td>
             }
           }
         </tr>

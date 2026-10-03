@@ -10,6 +10,8 @@
 
 $breakpoint-narrow: 900px;
 $breakpoint-compact: 600px;
+// Phones and other touch-first screens get larger targets.
+$touch: '(pointer: coarse), (max-width: 899.98px)';
 
 :root {
   --color-bg: #101318;
@@ -53,6 +55,14 @@ $breakpoint-compact: 600px;
 
   --sidebar-width: 300px;
   --topbar-height: 56px;
+  // In the installed (home-screen) app the status bar overlays the page: add the notch inset.
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+  --topbar-total: calc(var(--topbar-height) + var(--safe-top));
+  --bottombar-height: 64px;
+  --tap-size: 44px; // Apple HIG minimum touch target
   --content-max-width: 920px;
   --prose-max-width: 72ch;
 

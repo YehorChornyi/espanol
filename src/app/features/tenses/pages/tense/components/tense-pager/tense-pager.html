@@ -1,0 +1,14 @@
+<nav class="pager" aria-label="Інші часи">
+  @if (adjacent().previous; as previous) {
+    <a class="pager-link" [routerLink]="['/', previous.id]">
+      <span class="pager-label">‹ Попередній</span>
+      <span class="pager-name">{{ previous.name }}</span>
+    </a>
+  }
+  @if (adjacent().next; as next) {
+    <a class="pager-link pager-link--next" [routerLink]="['/', next.id]">
+      <span class="pager-label">Наступний ›</span>
+      <span class="pager-name">{{ next.name }}</span>
+    </a>
+  }
+</nav>

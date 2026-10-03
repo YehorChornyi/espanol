@@ -31,6 +31,8 @@
       <span class="formula-label">Формула</span> <app-rich-text [text]="t.formula" />
     </p>
 
+    <app-section-nav [sections]="t.sections" />
+
     @for (section of t.sections; track section.kind) {
       <section [id]="section.kind" [attr.aria-labelledby]="section.kind + '-title'">
         <h2 [id]="section.kind + '-title'">{{ section.title }}</h2>
@@ -81,6 +83,8 @@
       <h2 id="self-check-title">Самоперевірка</h2>
       <app-self-check [items]="t.selfCheck" />
     </section>
+
+    <app-tense-pager [adjacent]="adjacent()" />
   } @else if (tense.error()) {
     <div class="state state--error" role="alert">
       <p>Не вдалося завантажити розділ. Перевір з’єднання й спробуй ще раз.</p>

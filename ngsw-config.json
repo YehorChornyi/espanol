@@ -6,7 +6,14 @@
       "name": "app",
       "installMode": "prefetch",
       "resources": {
-        "files": ["/favicon.ico", "/index.html", "/*.css", "/*.js"]
+        "files": [
+          "/favicon.ico",
+          "/index.html",
+          "/manifest.webmanifest",
+          "/icons/**",
+          "/*.css",
+          "/*.js"
+        ]
       }
     },
     {
@@ -14,7 +21,10 @@
       "installMode": "prefetch",
       "updateMode": "prefetch",
       "resources": {
-        "files": ["/media/inter-latin*", "/media/inter-cyrillic*"]
+        "files": [
+          "/media/inter-latin*",
+          "/media/inter-cyrillic*"
+        ]
       }
     }
   ]

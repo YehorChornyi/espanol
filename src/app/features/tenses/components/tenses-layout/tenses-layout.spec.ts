@@ -64,6 +64,36 @@ describe('TensesLayout', () => {
     expect(panel.classList).not.toContain('is-visible');
   });
 
+  it('shows a bottom bar with menu and previous/next tense only on narrow screens', async () => {
+    const wide = await render(false);
+    expect(wide.host.querySelector('.bottombar')).toBeNull();
+    TestBed.resetTestingModule();
+
+    const { fixture, host } = await render(true);
+    await TestBed.inject(Router).navigateByUrl('/estar-gerundio');
+    await fixture.whenStable();
+    const links = [...host.querySelectorAll<HTMLAnchorElement>('.bottombar a')];
+    expect(links.map((a) => a.getAttribute('href'))).toEqual(['/presente', '/ir-a-infinitivo']);
+    expect(links[0].getAttribute('aria-label')).toBe('Попередній час: Presente');
+
+    host.querySelector<HTMLButtonElement>('.bottom-menu')!.click();
+    await fixture.whenStable();
+    expect(host.querySelector('#sidebar')!.classList).toContain('is-visible');
+    expect(document.body.classList).toContain('is-scroll-locked');
+  });
+
+  it('closes the drawer with a leftward swipe', async () => {
+    const { fixture, toggle, panel } = await render(true);
+    toggle.click();
+    await fixture.whenStable();
+    const touch = (x: number) => ({ clientX: x, clientY: 300 }) as Touch;
+    panel.dispatchEvent(Object.assign(new Event('touchstart'), { touches: [touch(250)] }));
+    panel.dispatchEvent(Object.assign(new Event('touchend'), { changedTouches: [touch(120)] }));
+    await fixture.whenStable();
+    expect(panel.classList).not.toContain('is-visible');
+    expect(document.body.classList).not.toContain('is-scroll-locked');
+  });
+
   it('closes the drawer after navigation', async () => {
     const { fixture, toggle } = await render(true);
     toggle.click();

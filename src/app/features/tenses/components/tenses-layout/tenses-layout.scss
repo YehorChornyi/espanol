@@ -3,58 +3,6 @@
   min-height: 100dvh;
 }
 
-.topbar {
-  position: sticky;
-  top: 0;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  gap: var(--space-3);
-  height: var(--topbar-height);
-  padding: 0 var(--space-4);
-  border-bottom: 1px solid var(--color-border);
-  background: rgb(16 19 24 / 92%);
-  backdrop-filter: blur(8px);
-}
-
-.menu-toggle {
-  display: grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  padding: 0;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-md);
-  background: var(--color-surface);
-  color: var(--color-text);
-  cursor: pointer;
-
-  &:hover {
-    background: var(--color-surface-2);
-  }
-}
-
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: var(--space-2);
-  color: var(--color-text);
-  font-weight: 650;
-  font-size: 1.0625rem;
-  text-decoration: none;
-}
-
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 28px;
-  height: 28px;
-  border-radius: var(--radius-sm);
-  background: var(--color-accent);
-  color: var(--color-bg);
-  font-weight: 750;
-}
-
 .shell {
   display: flex;
   align-items: flex-start;
@@ -62,11 +10,12 @@
 
 .panel {
   position: sticky;
-  top: var(--topbar-height);
+  top: var(--topbar-total);
   flex: 0 0 var(--sidebar-width);
   width: var(--sidebar-width);
-  height: calc(100dvh - var(--topbar-height));
+  height: calc(100dvh - var(--topbar-total));
   overflow: hidden auto;
+  overscroll-behavior: contain;
   border-right: 1px solid var(--color-border);
   background: var(--color-surface);
 
@@ -101,24 +50,28 @@
 .content {
   flex: 1 1 auto;
   min-width: 0;
-  padding: var(--space-6) var(--space-6) var(--space-7);
+  padding: var(--space-6) calc(var(--space-6) + var(--safe-right)) var(--space-7)
+    calc(var(--space-6) + var(--safe-left));
 }
 
 .backdrop {
   position: fixed;
-  inset: var(--topbar-height) 0 0;
+  inset: var(--topbar-total) 0 0;
   z-index: 15;
   background: var(--color-backdrop);
 }
 
-// Narrow screens: the sidebar becomes an overlay drawer.
+// Narrow screens: the sidebar becomes an overlay drawer between the top and bottom bars.
 .shell.is-narrow {
   .panel {
-    display: block;
     position: fixed;
+    top: var(--topbar-total);
+    bottom: calc(var(--bottombar-height) + var(--safe-bottom));
     left: 0;
     z-index: 20;
     width: min(var(--sidebar-width), 85vw);
+    height: auto;
+    padding-left: var(--safe-left);
     translate: -100% 0;
     visibility: hidden;
     transition:
@@ -130,9 +83,19 @@
       translate: 0 0;
       visibility: visible;
     }
+
+    app-sidebar {
+      width: auto;
+    }
+  }
+
+  .backdrop {
+    bottom: calc(var(--bottombar-height) + var(--safe-bottom));
   }
 
   .content {
-    padding: var(--space-5) var(--space-4) var(--space-7);
+    padding: var(--space-5) calc(var(--space-4) + var(--safe-right))
+      calc(var(--bottombar-height) + var(--safe-bottom) + var(--space-6))
+      calc(var(--space-4) + var(--safe-left));
   }
 }

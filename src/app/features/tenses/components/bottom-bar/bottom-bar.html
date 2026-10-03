@@ -1,0 +1,45 @@
+<nav class="bottombar" aria-label="Швидка навігація">
+  @if (adjacent().previous; as previous) {
+    <a
+      class="step step--previous"
+      [routerLink]="['/', previous.id]"
+      [attr.aria-label]="'Попередній час: ' + previous.name"
+    >
+      <span class="step-arrow" aria-hidden="true">‹</span>
+      <span class="step-name">{{ previous.name }}</span>
+    </a>
+  } @else {
+    <span class="step" aria-hidden="true"></span>
+  }
+
+  <button
+    type="button"
+    class="bottom-menu"
+    aria-controls="sidebar"
+    [attr.aria-expanded]="sidebar.visible()"
+    (click)="sidebar.toggle()"
+  >
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <path
+        d="M4 6h16M4 12h16M4 18h16"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+    </svg>
+    Часи
+  </button>
+
+  @if (adjacent().next; as next) {
+    <a
+      class="step step--next"
+      [routerLink]="['/', next.id]"
+      [attr.aria-label]="'Наступний час: ' + next.name"
+    >
+      <span class="step-name">{{ next.name }}</span>
+      <span class="step-arrow" aria-hidden="true">›</span>
+    </a>
+  } @else {
+    <span class="step" aria-hidden="true"></span>
+  }
+</nav>

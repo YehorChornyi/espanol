@@ -3,10 +3,30 @@
 .table-scroll {
   max-width: 100%;
   overflow-x: auto;
+  overscroll-behavior-x: contain;
   margin: var(--space-4) 0 var(--space-5);
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   background: var(--color-surface);
+
+  // Set by the scroll-hint directive: fade the edge that has more columns behind it.
+  &.has-more-right {
+    mask-image: linear-gradient(to right, #000 calc(100% - 40px), transparent);
+  }
+
+  &.has-more-left {
+    mask-image: linear-gradient(to left, #000 calc(100% - 40px), transparent);
+  }
+
+  &.has-more-left.has-more-right {
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 40px,
+      #000 calc(100% - 40px),
+      transparent
+    );
+  }
 }
 
 .table-scroll table {
@@ -33,6 +53,11 @@
   text-align: left;
   vertical-align: top;
   border-bottom: 1px solid var(--color-border);
+}
+
+// Short cells (forms, endings) never break: "-amos" must not split after its hyphen.
+.table-scroll .cell-nowrap {
+  white-space: nowrap;
 }
 
 .table-scroll thead th {
@@ -65,8 +90,42 @@
 }
 
 @media (max-width: tokens.$breakpoint-compact) {
+  .table-scroll {
+    // Full-bleed tables on phones: every pixel of width goes to columns.
+    margin-inline: calc(-1 * var(--space-4));
+    border-inline: 0;
+    border-radius: 0;
+  }
+
+  // Tighter cells and a touch smaller type let 5-column tables fit a 430px phone without
+  // scrolling; only the 7-column (all persons) tables still scroll, with the edge fade as a cue.
+  .table-scroll table {
+    font-size: 0.90625rem; // 14.5px
+  }
+
   .table-scroll th,
   .table-scroll td {
-    padding: var(--space-2) var(--space-3);
+    padding: var(--space-2);
+  }
+
+  .table-scroll caption {
+    padding-inline: var(--space-4);
+  }
+
+  // Person labels wrap ("él / ella /" + "usted") instead of taking a third of the width.
+  .table-scroll tbody th[scope='row'] {
+    white-space: normal;
+    min-width: 4.5rem;
+    max-width: 6rem;
+    padding-left: var(--space-4);
+  }
+
+  .table-scroll thead th {
+    white-space: normal;
+  }
+
+  .table-scroll thead th:first-child,
+  .table-scroll tbody td:first-child {
+    padding-left: var(--space-4);
   }
 }

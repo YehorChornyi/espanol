@@ -4,16 +4,18 @@
     @let open = revealed().has(i);
     <li class="item">
       <span class="prompt"><app-rich-text [text]="item.prompt" /></span>
-      <button
-        type="button"
-        class="reveal"
-        [attr.aria-expanded]="open"
-        [attr.aria-controls]="'answer-' + i"
-        (click)="toggle(i)"
-      >
-        {{ open ? 'Сховати' : 'Показати відповідь' }}
-      </button>
-      <span class="answer" [id]="'answer-' + i" [hidden]="!open">{{ item.answer }}</span>
+      <div class="controls">
+        <button
+          type="button"
+          class="reveal"
+          [attr.aria-expanded]="open"
+          [attr.aria-controls]="'answer-' + i"
+          (click)="toggle(i)"
+        >
+          {{ open ? 'Сховати' : 'Показати відповідь' }}
+        </button>
+        <span class="answer" [id]="'answer-' + i" [hidden]="!open">{{ item.answer }}</span>
+      </div>
     </li>
   }
 </ol>

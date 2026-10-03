@@ -1,3 +1,5 @@
+@use 'tokens';
+
 :host {
   display: block;
 }
@@ -25,6 +27,7 @@
 
 .toggle {
   display: inline-flex;
+  min-height: var(--tap-size);
   align-items: center;
   gap: var(--space-2);
   padding: var(--space-2) var(--space-4);
@@ -138,5 +141,12 @@
 @keyframes pulse {
   50% {
     opacity: 0.5;
+  }
+}
+
+@media (max-width: tokens.$breakpoint-compact) {
+  .actions .toggle {
+    flex: 1 1 0;
+    justify-content: center;
   }
 }
