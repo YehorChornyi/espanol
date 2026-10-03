@@ -1,0 +1,10 @@
+<!-- Whitespace-only nodes are dropped; each segment's own spaces live inside its text. -->
+@for (segment of segments(); track $index) {
+  @if (segment.strong) {
+    <strong>{{ segment.text }}</strong>
+  } @else if (segment.em) {
+    <em>{{ segment.text }}</em>
+  } @else {
+    <ng-container>{{ segment.text }}</ng-container>
+  }
+}

@@ -1,0 +1,65 @@
+<article class="page">
+  <header class="intro">
+    <p class="eyebrow">Шпаргалка</p>
+    <h1>Іспанські часи</h1>
+    <p class="lead">
+      {{ count() }} часів і конструкцій з поясненнями українською: як утворюються, коли вживати,
+      неправильні дієслова. Закріплюй часи, які вивчаєш зараз, — вони з’являться вгорі меню.
+    </p>
+  </header>
+
+  <section aria-labelledby="guide-title">
+    <h2 id="guide-title">Як вибрати час за 5 секунд</h2>
+    <p>Іди питаннями згори донизу й зупинись на першому «так».</p>
+    <ol class="guide">
+      @for (step of steps; track step.tenseId) {
+        <li class="guide-step">
+          <span class="guide-question">{{ step.question }}</span>
+          <span class="guide-answer">
+            <span aria-hidden="true">→</span>
+            <a [routerLink]="['/', step.tenseId]">{{ step.name }}</a>
+            <span class="guide-example"><app-rich-text [text]="step.example" /></span>
+          </span>
+        </li>
+      }
+    </ol>
+  </section>
+
+  <section aria-labelledby="map-title">
+    <h2 id="map-title">Карта часів</h2>
+    <p>
+      Головне питання: <strong>коли</strong> це відбувається і
+      <strong>чи пов’язано це із «зараз»</strong>. Приклад — дієслово <em>hablar</em>, форма yo.
+    </p>
+    <div class="table-scroll" role="region" tabindex="0" aria-label="Карта часів">
+      <table>
+        <thead>
+          <tr>
+            <th scope="col">Час</th>
+            <th scope="col">Форма (yo)</th>
+            <th scope="col">Коли</th>
+            <th scope="col">Аналог в англійській</th>
+            <th scope="col">Слова-маркери</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (tense of catalogue; track tense.id) {
+            <tr>
+              <th scope="row" class="map-name">
+                <a [routerLink]="['/', tense.id]">{{ tense.name }}</a>
+              </th>
+              <td>
+                <strong>{{ tense.exampleYo }}</strong>
+              </td>
+              <td>{{ tense.when }}</td>
+              <td>{{ tense.english }}</td>
+              <td class="map-markers">
+                {{ tense.markers.length ? tense.markers.join(', ') : '—' }}
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+</article>

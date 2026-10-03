@@ -1,0 +1,75 @@
+<nav class="sidebar-nav" aria-label="Часи">
+  <a
+    class="overview-link"
+    routerLink="/"
+    routerLinkActive="is-active"
+    [routerLinkActiveOptions]="{ exact: true }"
+    ariaCurrentWhenActive="page"
+  >
+    <span class="overview-icon" aria-hidden="true">◎</span>
+    Огляд: як вибрати час
+  </a>
+
+  @if (progress.pinnedTenses().length) {
+    <section class="group" aria-labelledby="group-pinned">
+      <h2 class="group-title" id="group-pinned">Вивчаю зараз</h2>
+      <ul class="list">
+        @for (tense of progress.pinnedTenses(); track tense.id) {
+          <ng-container *ngTemplateOutlet="row; context: { $implicit: tense }" />
+        }
+      </ul>
+    </section>
+  }
+
+  @if (progress.otherTenses().length) {
+    <section class="group" aria-labelledby="group-all">
+      <h2 class="group-title" id="group-all">Усі часи</h2>
+      <ul class="list">
+        @for (tense of progress.otherTenses(); track tense.id) {
+          <ng-container *ngTemplateOutlet="row; context: { $implicit: tense }" />
+        }
+      </ul>
+    </section>
+  }
+</nav>
+
+<ng-template #row let-tense>
+  @let pinned = progress.isPinned(tense.id);
+  @let learned = progress.isLearned(tense.id);
+  <li class="row" [class.is-learned]="learned">
+    <a
+      class="row-link"
+      [routerLink]="['/', tense.id]"
+      routerLinkActive="is-active"
+      ariaCurrentWhenActive="page"
+    >
+      <span class="row-name">
+        {{ tense.name }}
+        @if (learned) {
+          <span class="learned-mark" aria-hidden="true">✓</span>
+          <span class="visually-hidden">(вивчено)</span>
+        }
+      </span>
+      <span class="row-hint">{{ tense.hint }}</span>
+    </a>
+    <button
+      type="button"
+      class="pin-button"
+      [class.is-pinned]="pinned"
+      [attr.aria-pressed]="pinned"
+      [attr.aria-label]="(pinned ? 'Відкріпити' : 'Закріпити') + ' «' + tense.name + '»'"
+      [attr.title]="pinned ? 'Відкріпити' : 'Вивчаю зараз — закріпити вгорі'"
+      (click)="progress.togglePinned(tense.id)"
+    >
+      <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
+        <path
+          d="M15 3l6 6-3 1-4 4 1 5-2 2-4.5-4.5L4 21l-1-1 4.5-4.5L3 11l2-2 5 1 4-4z"
+          [attr.fill]="pinned ? 'currentColor' : 'none'"
+          stroke="currentColor"
+          stroke-width="1.6"
+          stroke-linejoin="round"
+        />
+      </svg>
+    </button>
+  </li>
+</ng-template>

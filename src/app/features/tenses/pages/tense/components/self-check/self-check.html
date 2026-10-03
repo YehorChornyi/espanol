@@ -1,0 +1,22 @@
+<p class="hint">Постав дієслово в потрібну форму, потім перевір себе.</p>
+<ol class="items">
+  @for (item of items(); track $index; let i = $index) {
+    @let open = revealed().has(i);
+    <li class="item">
+      <span class="prompt"><app-rich-text [text]="item.prompt" /></span>
+      <button
+        type="button"
+        class="reveal"
+        [attr.aria-expanded]="open"
+        [attr.aria-controls]="'answer-' + i"
+        (click)="toggle(i)"
+      >
+        {{ open ? 'Сховати' : 'Показати відповідь' }}
+      </button>
+      <span class="answer" [id]="'answer-' + i" [hidden]="!open">{{ item.answer }}</span>
+    </li>
+  }
+</ol>
+<button type="button" class="reveal-all" (click)="toggleAll()">
+  {{ allRevealed() ? 'Сховати всі відповіді' : 'Показати всі відповіді' }}
+</button>

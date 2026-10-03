@@ -1,0 +1,62 @@
+// Design tokens. Component styles use these custom properties only, never raw colour literals.
+//
+// Contrast (WCAG AA needs ≥ 4.5:1), measured on --color-bg / --color-surface / --color-surface-3:
+//   --color-text       15.4 / 14.5 / 11.6
+//   --color-text-muted  8.2 /  7.7 /  6.2
+//   --color-accent     10.4 /  9.8 /  7.9
+//   --color-link        9.3 /  8.7 /  7.0
+//   --color-success    10.3 /  9.6 /  7.7
+//   --color-warning     8.7 /  8.2 /  6.6
+
+$breakpoint-narrow: 900px;
+$breakpoint-compact: 600px;
+
+:root {
+  --color-bg: #101318;
+  --color-surface: #161a21;
+  --color-surface-2: #1e232c;
+  --color-surface-3: #262c37;
+  --color-border: #2c333f;
+  --color-text: #e7eaf0;
+  --color-text-muted: #a4adbb;
+  --color-accent: #f3b766;
+  --color-accent-soft: rgb(243 183 102 / 12%);
+  --color-link: #8fb8ff;
+  --color-success: #6fd49b;
+  --color-warning: #ff9580;
+  --color-warning-soft: rgb(255 149 128 / 10%);
+  --color-tip-soft: rgb(143 184 255 / 10%);
+  --color-backdrop: rgb(5 7 10 / 65%);
+  --color-focus: #8fb8ff;
+
+  --font-sans: 'Inter Variable', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-size-body: 1.0625rem; // 17px
+  --font-size-table: 0.9375rem; // 15px
+  --font-size-small: 0.875rem;
+  --font-size-h1: clamp(1.75rem, 1.4rem + 1.5vw, 2.5rem);
+  --font-size-h2: 1.5rem;
+  --font-size-h3: 1.1875rem;
+  --line-height-body: 1.65;
+  --line-height-tight: 1.25;
+
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+
+  --sidebar-width: 300px;
+  --topbar-height: 56px;
+  --content-max-width: 920px;
+  --prose-max-width: 72ch;
+
+  --transition-fast: 150ms ease;
+  --panel-duration: 220ms;
+  --transition-panel: var(--panel-duration) cubic-bezier(0.2, 0, 0, 1);
+}

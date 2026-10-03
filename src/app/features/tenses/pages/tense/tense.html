@@ -1,0 +1,97 @@
+<article class="page">
+  <header class="header">
+    <p class="eyebrow">{{ summary()?.hint }}</p>
+    <h1>{{ summary()?.name }}</h1>
+    <div class="actions">
+      <button
+        type="button"
+        class="toggle"
+        [class.is-on]="pinned()"
+        [attr.aria-pressed]="pinned()"
+        (click)="progress.togglePinned(tenseId())"
+      >
+        <span aria-hidden="true">📌</span> Вивчаю зараз
+      </button>
+      <button
+        type="button"
+        class="toggle toggle--learned"
+        [class.is-on]="learned()"
+        [attr.aria-pressed]="learned()"
+        (click)="progress.toggleLearned(tenseId())"
+      >
+        <span aria-hidden="true">✓</span> Вивчено
+      </button>
+    </div>
+  </header>
+
+  @if (tense.hasValue()) {
+    @let t = tense.value();
+    <p class="intro"><app-rich-text [text]="t.intro" /></p>
+    <p class="formula">
+      <span class="formula-label">Формула</span> <app-rich-text [text]="t.formula" />
+    </p>
+
+    @for (section of t.sections; track section.kind) {
+      <section [id]="section.kind" [attr.aria-labelledby]="section.kind + '-title'">
+        <h2 [id]="section.kind + '-title'">{{ section.title }}</h2>
+        @for (block of section.blocks; track $index) {
+          @switch (block.type) {
+            @case ('paragraph') {
+              <p><app-rich-text [text]="block.text" /></p>
+            }
+            @case ('table') {
+              <app-content-table [block]="block" [label]="section.title" />
+            }
+            @case ('list') {
+              <ul>
+                @for (item of block.items; track $index) {
+                  <li><app-rich-text [text]="item" /></li>
+                }
+              </ul>
+            }
+            @case ('examples') {
+              <ul class="examples">
+                @for (example of block.items; track $index) {
+                  <li>
+                    <span class="example-es" lang="es"><app-rich-text [text]="example.es" /></span>
+                    <span class="example-uk">{{ example.uk }}</span>
+                  </li>
+                }
+              </ul>
+            }
+            @case ('note') {
+              <div class="note" [class.note--warning]="block.tone === 'warning'">
+                <p><app-rich-text [text]="block.text" /></p>
+              </div>
+            }
+          }
+        }
+        @for (group of section.groups ?? []; track group.title) {
+          <app-irregular-group [group]="group" />
+        }
+      </section>
+    }
+
+    <section id="mistakes" aria-labelledby="mistakes-title">
+      <h2 id="mistakes-title">Типові помилки</h2>
+      <app-mistakes-table [mistakes]="t.mistakes" />
+    </section>
+
+    <section id="self-check" aria-labelledby="self-check-title">
+      <h2 id="self-check-title">Самоперевірка</h2>
+      <app-self-check [items]="t.selfCheck" />
+    </section>
+  } @else if (tense.error()) {
+    <div class="state state--error" role="alert">
+      <p>Не вдалося завантажити розділ. Перевір з’єднання й спробуй ще раз.</p>
+      <button type="button" class="toggle" (click)="tense.reload()">Спробувати ще раз</button>
+    </div>
+  } @else {
+    <div class="state" aria-busy="true" aria-live="polite">
+      <span class="visually-hidden">Завантаження…</span>
+      <div class="skeleton"></div>
+      <div class="skeleton skeleton--short"></div>
+      <div class="skeleton skeleton--block"></div>
+    </div>
+  }
+</article>

@@ -1,0 +1,138 @@
+:host {
+  display: block;
+  min-height: 100dvh;
+}
+
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  height: var(--topbar-height);
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--color-border);
+  background: rgb(16 19 24 / 92%);
+  backdrop-filter: blur(8px);
+}
+
+.menu-toggle {
+  display: grid;
+  place-items: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-md);
+  background: var(--color-surface);
+  color: var(--color-text);
+  cursor: pointer;
+
+  &:hover {
+    background: var(--color-surface-2);
+  }
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  color: var(--color-text);
+  font-weight: 650;
+  font-size: 1.0625rem;
+  text-decoration: none;
+}
+
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  border-radius: var(--radius-sm);
+  background: var(--color-accent);
+  color: var(--color-bg);
+  font-weight: 750;
+}
+
+.shell {
+  display: flex;
+  align-items: flex-start;
+}
+
+.panel {
+  position: sticky;
+  top: var(--topbar-height);
+  flex: 0 0 var(--sidebar-width);
+  width: var(--sidebar-width);
+  height: calc(100dvh - var(--topbar-height));
+  overflow: hidden auto;
+  border-right: 1px solid var(--color-border);
+  background: var(--color-surface);
+
+  // Fixed inner width so the list doesn't reflow while the panel animates.
+  app-sidebar {
+    width: var(--sidebar-width);
+  }
+}
+
+// Wide screens: the panel animates its width; the content column grows/shrinks with it.
+// `visibility` switches at the end of closing (and immediately on opening) so the hidden
+// panel can't be reached by Tab.
+.shell:not(.is-narrow) .panel {
+  transition:
+    flex-basis var(--transition-panel),
+    width var(--transition-panel),
+    border-color var(--transition-panel),
+    visibility 0s linear var(--panel-duration);
+
+  &:not(.is-visible) {
+    flex-basis: 0;
+    width: 0;
+    border-right-color: transparent;
+    visibility: hidden;
+  }
+
+  &.is-visible {
+    transition-delay: 0s;
+  }
+}
+
+.content {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: var(--space-6) var(--space-6) var(--space-7);
+}
+
+.backdrop {
+  position: fixed;
+  inset: var(--topbar-height) 0 0;
+  z-index: 15;
+  background: var(--color-backdrop);
+}
+
+// Narrow screens: the sidebar becomes an overlay drawer.
+.shell.is-narrow {
+  .panel {
+    display: block;
+    position: fixed;
+    left: 0;
+    z-index: 20;
+    width: min(var(--sidebar-width), 85vw);
+    translate: -100% 0;
+    visibility: hidden;
+    transition:
+      translate 200ms ease,
+      visibility 200ms;
+    box-shadow: 0 0 40px rgb(0 0 0 / 50%);
+
+    &.is-visible {
+      translate: 0 0;
+      visibility: visible;
+    }
+  }
+
+  .content {
+    padding: var(--space-5) var(--space-4) var(--space-7);
+  }
+}

@@ -1,0 +1,31 @@
+<div class="table-scroll" role="region" tabindex="0" [attr.aria-label]="regionLabel()">
+  <table>
+    @if (block().caption; as caption) {
+      <caption>
+        {{
+          caption
+        }}
+      </caption>
+    }
+    <thead>
+      <tr>
+        @for (header of block().headers; track $index) {
+          <th scope="col"><app-rich-text [text]="header" /></th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (row of block().rows; track $index) {
+        <tr>
+          @for (cell of row; track $index; let first = $first) {
+            @if (first && block().persons) {
+              <th scope="row"><app-rich-text [text]="cell" /></th>
+            } @else {
+              <td><app-rich-text [text]="cell" /></td>
+            }
+          }
+        </tr>
+      }
+    </tbody>
+  </table>
+</div>

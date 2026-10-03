@@ -1,0 +1,6 @@
+// Global styles. The Inter Variable font is registered in angular.json (`@fontsource-variable/inter`),
+// which ships Cyrillic, Latin and Latin-ext subsets selected by unicode-range.
+@use 'styles/tokens';
+@use 'styles/base';
+@use 'styles/typography';
+@use 'styles/tables';
